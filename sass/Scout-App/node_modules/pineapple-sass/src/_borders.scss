@@ -1,0 +1,89 @@
+// Border mixin
+// Add a border to any element 
+@mixin border($width, $style, $color) {
+    border: $width $style $color;
+}
+
+// Border radius mixin
+// Add border radius to an element
+@mixin borderRadius($radius) {
+    -webkit-border-radius: $radius;
+    -moz-border-radius: $radius;
+    border-radius: $radius;
+}
+
+// Edge border radius mixin 
+// Add border radius to a specifix edge(left/right) of an element
+@mixin borderRadiusEdge($edge, $radius) {
+    @if $edge == 'right' {
+        border-top-right-radius: $radius;
+        border-bottom-right-radius: $radius;
+    }
+    @else if $edge == 'left' {
+        border-top-left-radius: $radius;
+        border-bottom-left-radius: $radius;
+    }
+}
+
+// Border + Radius mixin
+// Add border and a radius to any side(top/bottom/left/right) of an element
+@mixin sideBorderAndRadius($side, $width, $type, $color, $radius: 0) {
+    @if $side == 'top' {
+        border-top: $width $type $color;
+        border-bottom: none;
+        border-left: none;
+        border-right: none;
+        @include borderRadius($radius);
+    }
+    @else if $side == 'right' {
+        border-right: $width $type $color;
+        border-bottom: none;
+        border-left: none;
+        border-top: none;
+        @include borderRadius($radius);
+    }
+    @else if $side == 'bottom' {
+        border-bottom: $width $type $color;
+        border-left: none;
+        border-top: none;
+        border-right: none;
+        @include borderRadius($radius);
+    }
+    @else if $side == 'left' {
+        border-left: $width $type $color;
+        border-top: none;
+        border-right: none;
+        border-bottom: none;
+        @include borderRadius($radius);
+    }
+}
+
+// Border image mixin
+// Add a border image to any element
+@mixin borderImage($borderWidth, $url, $mode, $sliceTop, $sliceRight: 0, $sliceBottom: 0, $sliceLeft: 0) {
+    border-width: $borderWidth;
+    @if $sliceRight != 0 and $sliceBottom != 0 and $sliceLeft != 0 {
+        -webkit-border-image: url($url) $sliceTop $sliceRight $sliceBottom $sliceLeft $mode;
+        -moz-border-image: url($url) $sliceTop $sliceRight $sliceBottom $sliceLeft $mode;
+        -o-border-image: url($url) $sliceTop $sliceRight $sliceBottom $sliceLeft $mode;
+        border-image: url($url) $sliceTop $sliceRight $sliceBottom $sliceLeft $mode;
+    }
+    @else if $sliceRight == 0 and $sliceBottom == 0 and $sliceLeft == 0 {
+        -webkit-border-image: url($url) $sliceTop $mode;
+        -moz-border-image: url($url) $sliceTop $mode;
+        -o-border-image: url($url) $sliceTop $mode;
+        border-image: url($url) $sliceTop $mode;
+    }
+    @else if $sliceRight != 0 and $sliceBottom != 0 and $sliceLeft == 0 {
+        -webkit-border-image: url($url) $sliceTop $sliceRight $sliceBottom $mode;
+        -moz-border-image: url($url) $sliceTop $sliceRight $sliceBottom $mode;
+        -o-border-image: url($url) $sliceTop $sliceRight $sliceBottom $mode;
+        border-image: url($url) $sliceTop $sliceRight $sliceBottom $mode;
+    }
+    @else if $sliceRight != 0 and $sliceBottom == 0 and $sliceLeft == 0 {
+        -webkit-border-image: url($url) $sliceTop $sliceRight $mode;   
+        -moz-border-image: url($url) $sliceTop $sliceRight $mode;   
+        -o-border-image: url($url) $sliceTop $sliceRight $mode; 
+        border-image: url($url) $sliceTop $sliceRight $mode;   
+    }
+}

@@ -1,0 +1,11 @@
+
+// Mixinins for shadows used in buttons
+@mixin sassy-button-highlight-shadow( $base-color ) {
+  box-shadow: lighten( $base-color, 15% ) 0 1px 0 inset;
+  @content;
+}
+
+@mixin sassy-button-active-shadow( $second-color ) {
+  box-shadow: darken( $second-color, 8% ) 0 1px 2px inset;
+  @content;
+}

@@ -1,0 +1,35 @@
+// Clearfix hack mixin
+// Add clearfix hack - to contain floats within containers
+@mixin clearfix {
+    &:before,
+    &:after {
+        content: "";
+        clear: both;
+        display: table;
+    }
+}
+
+// Display flex mixin
+// Add flex display property to any element
+@mixin displayFlex {
+	display: -webkit-box;
+	display: -ms-flexbox;
+	display: -webkit-flex;
+	display: flex;
+} 
+
+// Box sizing mixin
+// Set box sizing for an element
+@mixin boxSizing($sizing) {
+	-webkit-box-sizing: $sizing;
+	-moz-box-sizing: $sizing;
+	box-sizing: $sizing;
+}
+
+// Truncate mixin
+// Truncate single line text
+@mixin truncate {
+	white-space: nowrap;
+	overflow: hidden;
+	text-overflow: ellipsis;
+}

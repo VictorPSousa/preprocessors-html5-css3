@@ -1,0 +1,79 @@
+// Media query breakpoint values
+$largeScreen: 1200px;
+$mediumScreen: 992px;
+$smallScreen: 768px;
+$extraSmallScreen: 480px;
+$smallMobile: 320px;
+
+// Large screen media query mixin
+// Detect large screens and apply css
+@mixin media-l-screen {
+	@media screen and (max-width: $largeScreen) {
+		& {
+			@content
+		}
+	}
+}
+
+// Medium screen media query mixin
+// Detect medium screens and apply css
+@mixin media-m-screen {
+	@media screen and (max-width: $mediumScreen) {
+		& {
+			@content
+		}
+	}
+}
+
+// Small screen media query mixin
+// Detect small screens and apply css
+@mixin media-s-screen {
+	@media screen and (max-width: $smallScreen) {
+		& {
+			@content
+		}
+	}
+}
+
+// X-small screen media query mixin
+// Detect x-small screens and apply css
+@mixin media-xs-screen {
+	@media screen and (max-width: $extraSmallScreen) {
+		& {
+			@content
+		}
+	}
+}
+
+// Small mobile screen media query mixin
+// Detect small mobile screens and apply css
+@mixin media-s-mobile {
+	@media screen and (max-width: $smallMobile) {
+		& {
+			@content
+		}
+	}
+}
+
+// Hi-res retina screen media query mixin
+// Detect retina screen and apply css
+@mixin media-retina {
+	@media (-webkit-min-device-pixel-ratio: 1.5),
+		(min--moz-device-pixel-ratio: 1.5),
+		(-o-min-device-pixel-ratio: 3/2),
+		(min-device-pixel-ratio: 1.5),
+		(min-resolution: 1.5dppx) {
+			@content;
+	}
+}
+
+// Background Image retinize mixin
+// Retinize a background image
+@mixin retinizeBackground($file, $postfix, $type, $width, $height, $location:'') {
+	background-image: url($location+$file+"."+$type);
+	@include backgroundSize($width, $height);
+	@include media-retina {
+		background-image: url($location+$file+$postfix+"."+$type);
+		@include backgroundSize($width, $height);
+	}
+}

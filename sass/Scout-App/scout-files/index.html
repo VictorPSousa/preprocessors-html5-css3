@@ -1,0 +1,562 @@
+<!DOCTYPE html>
+<html>
+  <head>
+    <title data-lang="APPLICATION_TITLE">Scout-App: The Sass GUI</title>
+    <link rel="icon" type="image/x-icon" href="_img/favicon.ico">
+    <link rel="stylesheet" href="_style/ven.bootstrap.css">
+    <link rel="stylesheet" href="_themes/simplex.min.css" data-swatch="swapper">
+    <link rel="stylesheet" href="_style/ugui-devtools.css">
+    <link rel="stylesheet" href="_style/style.css">
+
+    <!--
+    <script type="text/javascript"> require('nw.gui').Window.get().showDevTools(); </script>
+    -->
+
+    <!-- UGUI requires jQuery 1.9.1 or above. -->
+    <script type="text/javascript" src="../node_modules/jquery/dist/jquery.min.js"></script>
+    <script type="text/javascript" src="../node_modules/components-jqueryui/jquery-ui.min.js"></script>
+    <script type="text/javascript" src="../node_modules/bootstrap/dist/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="../node_modules/bootstrap_dropdowns_enhancement/js/dropdowns-enhancement.js"></script>
+    <script type="text/javascript" src="../node_modules/bootstrap-slider/dist/bootstrap-slider.min.js"></script>
+    <script type="text/javascript" src="../node_modules/countup.js/dist/countUp.min.js"></script>
+    <script type="text/javascript" src="../node_modules/marked/marked.min.js"></script>
+    <!-- APP JS is at the bottom -->
+  </head>
+  <!-- Change the class form dev to prod when you're ready to distribute your application. -->
+  <body role="document" class="dev">
+
+    <nav class="navbar navbar-inverse navbar-fixed-top drag-enable" role="navigation">
+      <div class="drag-enable">
+        <div class="navbar-header drag-enable">
+          <button type="button" class="navbar-toggle collapsed drag-disable" data-toggle="collapse" data-target=".navbar-collapse">
+            <span class="sr-only" data-lang="TOGGLE_NAVIGATION"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+            <span class="icon-bar"></span>
+          </button>
+          <a class="navbar-brand">
+            <img src="_img/wordmark-dark.png" data-langalt="SCOUTAPP_LOGO" />
+          </a>
+        </div>
+        <div class="navbar-collapse collapse drag-enable">
+          <ul class="nav navbar-nav drag-disable">
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span data-lang="FILE"></span> <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li><a href="#new"      id="file-newproject"  data-lang="NEW_PROJECT"></a></li>
+           <!-- <li><a href="#template" id="file-boilerplate"                        >New from Boilerplate</a></li> --> <!-- LOCALIZE -->
+                <li><a href="#multi"    id="file-multi"       data-lang="MULTIPROJECT_IMPORT"></a></li>
+                <li><a href="#prefs"    id="preferences"      data-lang="PREFERENCES"></a></li>
+                <li class="divider"></li>
+                <li><a href="#exit" data-lang="EXIT"></a></li>
+              </ul>
+            </li>
+            <li class="dropdown">
+              <a href="#" class="dropdown-toggle" data-toggle="dropdown"><span data-lang="VIEW"></span> <span class="caret"></span></a>
+              <ul class="dropdown-menu" role="menu">
+                <li id="viewStatusNav"><a href="#viewStatus" data-lang="STATUS"></a></li>
+                <!-- items with a class of "devNav" are only visible when <body> has a class of "dev" -->
+                <li><a href="#console" data-lang="DEV_TOOLS"></a></li>
+              </ul>
+            </li>
+            <li class="dropdown navHelp">
+              <!-- <a href="#about"> must exist in your app as it contains the credits for UGUI -->
+              <a href="#about" data-lang="ABOUT"></a>
+            </li>
+          </ul>
+        </div><!--/.nav-collapse -->
+      </div>
+    </nav>
+
+    <section id="sidebar">
+
+      <div id="projects-list" class="btn-group-vertical" role="group" aria-label="Listing of projects" data-langarialabel="LISTING_OF_PROJECTS"><!-- Your list of projects. --></div>
+      <div class="btn-group-vertical" role="group" aria-label="Project Controls" data-langarialabel="PROJECT_CONTROLS">
+        <input type="file" id="addProjectBrowse" nwdirectory="nwdirectory" nwworkingdir="..." class="hide" />
+        <div id="addProject" class="btn btn-primary truncate"><span class="text-default glyphicon glyphicon-plus"    aria-hidden="true"></span><strong data-lang="ADD_PROJECT"></strong></div>
+        <div id="viewStatus" class="btn btn-info    truncate"><span class="text-default glyphicon glyphicon-comment" aria-hidden="true"></span><strong data-lang="STATUS_OF_ALL_PROJECTS"></strong></div>
+      </div>
+    </section>
+
+    <div class="container" role="main">
+
+      <section id="project-settings" class="row hide">
+        <form role="form-inline">
+
+          <div class="row">
+            <div id="projectIconContainer">
+              <img id="projectIcon" src="_img/logo_128.png" data-langalt="PROJECT_ICON" />
+              <span id="projectIconHover" data-langtitle="BROWSE">
+                <span class="glyphicon glyphicon-plus" aria-hidden="true"></span>
+              </span>
+              <input id="projectIconBrowse" type="file" nwworkingdir="..." accept=".GIF, .BMP, .PNG, .JPG, .JPEG, .ICO" class="hide" />
+            </div>
+            <h3 id="projectName" class="edit custom-icon"></h3>
+            <h3 id="projectNameEditable">
+              <input type="text" class="form-control" />
+              <span class="pull-right glyphicon glyphicon-remove text-danger"></span>
+              <span class="pull-right glyphicon glyphicon-ok text-success"></span>
+            </h3>
+            <input type="hidden" id="projectID" val="" disabled />
+            <input type="text" id="projectFolder" class="form-control" value="" disabled />
+          </div>
+          <div class="row">
+            <h3 data-lang="STYLESHEET_DIRECTORIES"></h3>
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-s-6 col-md-6 col-l-6">
+              <label for="inputFolder" data-lang="INPUT_FOLDER"></label>
+              <input id="inputFolder" type="text" class="form-control" data-argName="inputFolder" required="required" />
+              <span id="inputFolderIcon" class="glyphicon glyphicon-folder-open pull-right" data-langtitle="BROWSE"></span>
+              <input type="file" id="inputFolderBrowse" nwdirectory="nwdirectory" nwworkingdir="..." class="hide" />
+            </div>
+            <div class="col-xs-12 col-s-6 col-md-6 col-l-6">
+              <label for="outputFolder" data-lang="OUTPUT_FOLDER"></label>
+              <input id="outputFolder" type="text" class="form-control" data-argName="outputFolder" required="required" />
+              <span id="outputFolderIcon" class="glyphicon glyphicon-folder-open pull-right" data-langtitle="BROWSE"></span>
+              <input type="file" id="outputFolderBrowse" nwdirectory="nwdirectory" nwworkingdir="..." class="hide" />
+            </div>
+            <div id="outputWarning" class="col-xs-12 col-s-12 col-md-12 col-l-12 text-danger text-center hide">
+              <strong data-lang="OUTPUT_WARNING"></strong>
+            </div>
+          </div>
+
+          <!--
+            <div class="row">
+              <h3>Other Directories</h3>
+            </div>
+
+            <div class="row form-group">
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6">
+                <label>JavaScripts Folder:</label>
+                <input type="text" id="jsFilePath" disabled />
+                <div class="inputDirectoryContainer">
+                  <button class="inputDirectoryBttn">...</button>
+                  <input type="file" id="jsFolderBrowse" data-argName="jsFolder" class="form-control" nwdirectory="nwdirectory" nwworkingdir="..." />
+                </div>
+              </div>
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6">
+                <label>Images Folder:</label>
+                <input type="text" id="imgFilePath" disabled />
+                <div class="inputDirectoryContainer">
+                  <button class="inputDirectoryBttn">...</button>
+                  <input type="file" id="imgFolderBrowse" data-argName="imgFolder" class="form-control" nwdirectory="nwdirectory" nwworkingdir="..." />
+                </div>
+              </div>
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6">
+                <label>Config File:</label>
+                <input type="file" />
+              </div>
+            </div>
+          -->
+
+          <div class="row">
+            <div>
+              <h3 data-lang="ENVIRONMENT"></h3>
+            </div>
+            <div id="environment" class="col-xs-12 col-s-6 col-md-6 col-l-6 radio">
+              <div class="col-xs-12">
+                <input id="development"  type="radio" name="environment" data-argName="development" value="development"         />
+                <label for="development" class="col-xs-12 col-s-6 col-md-6 col-l-6" data-lang="DEVELOPMENT"></label>
+              </div>
+              <div class="col-xs-12">
+                <input id="production"   type="radio" name="environment" data-argName="production"  value="production"  checked />
+                <label for="production"  class="col-xs-12 col-s-6 col-md-6 col-l-6" data-lang="PRODUCTION"></label>
+              </div>
+            </div>
+
+            <div class="col-xs-12 col-s-6 col-md-6 col-l-6" data-langtitle="OUTPUT_STYLE">
+
+              <select id="outputStyle" data-argName="outputStyle" class="form-control" required="required">
+                <option value="expanded"   data-lang="OUTPUT_STYLE"      ></option>
+                <option value="nested"     data-lang="OUTPUT_NESTED"     ></option>
+                <option value="expanded"   data-lang="OUTPUT_EXPANDED"   ></option>
+                <option value="compact"    data-lang="OUTPUT_COMPACT"    ></option>
+                <option value="compressed" data-lang="OUTPUT_COMPRESSED" ></option>
+              </select>
+
+            </div>
+
+            <div id="linefeed" class="col-xs-12 col-s-12 col-md-12 col-l-12 radio" data-langtitle="LINEFEED">
+              <label data-lang="LINEFEED"></label>
+              <div class="col-xs-12">
+                <input id="linefeedlf" type="radio" name="linefeed" data-argname="linefeedlf" value="lf" checked="">
+                <label for="linefeedlf" class="col-xs-12 col-s-6 col-md-6 col-l-6" data-lang="LINEFEED_LF"></label>
+              </div>
+              <div class="col-xs-12">
+                <input id="linefeedcrlf" type="radio" name="linefeed" data-argname="linefeedcrlf" value="crlf">
+                <label for="linefeedcrlf" class="col-xs-12 col-s-6 col-md-6 col-l-6" data-lang="LINEFEED_CRLF"></label>
+              </div>
+            </div>
+
+          </div>
+
+          <div class="row">
+            <div class="col-xs-12 col-s-12 col-md-12 col-l-12 text-right">
+              <button id="delete-project" type="button" class="btn btn-default">
+                <!--
+                  <small><span class="glyphicon glyphicon-trash"></span></small>
+                -->
+                <span data-lang="DELETE_PROJECT"></span>
+              </button>
+            </div>
+          </div>
+
+        </form>
+      </section>
+
+      <!-- Alerts and messages once Node-Sass is running. -->
+      <h2 id="printConsoleTitle" class="text-center" data-lang="STATUS_OF_ALL_PROJECTS"></h2>
+      <section id="printConsole" class="row">
+        <div id="updateFound"></div>
+      </section>
+    </div> <!-- end container -->
+
+    <div id="ftux" class="text-center">
+      <div class="container">
+        <h1 data-lang="WELCOME_MESSAGE"></h1>
+
+        <input type="file" id="ftuxProjectBrowse" nwdirectory="nwdirectory" nwworkingdir="..." class="hide" />
+
+        <div class="panel panel-primary text-left">
+          <div class="panel-heading">
+            <h3 class="panel-title" data-lang="IMPORT_PROJECTS"></h3>
+          </div>
+          <div class="panel-body text-center">
+            <div id="ftux-bordered" class="bordered text-center">
+              <span class="icon icon-drag-n-drop"></span>
+            </div>
+            <div class="ftux-title" data-lang="FTUX_DRAG_DROP"></div>
+            <hr class="dashed-hr" />
+            <div class="row">
+              <div class="text-center inline-block">
+                <button id="ftux-add-project" class="btn btn-lg btn-default">
+                  <span class="glyphicon glyphicon-plus"></span>
+                  <span data-lang="ADD_A_PROJECT"></span>
+                </button>
+                <p class="faded75" data-lang="SELECT_PROJECT_FOLDER"></p>
+              </div>
+              <div class="text-center inline-block">
+                <button id="ftux-multi" class="btn btn-lg btn-primary">
+                  <span class="icon icon-folder-tree"></span>
+                  <span data-lang="ADD_GROUP_OF_PROJECTS"></span>
+                </button>
+                <p id="ftux-multi-text" class="faded75"></p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Multi-Project Import modal -->
+    <div id="multi-import-modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="glyphicon glyphicon-remove pull-right" data-dismiss="modal" aria-hidden="true"></span>
+            <h4 data-lang="MULTIPROJECT_IMPORT"></h4>
+          </div>
+          <div class="modal-body">
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                  <strong id="multiImportHeader"></strong>
+              </div>
+              <div class="panel-body">
+
+                <table class="table table-striped table-hover table-condensed">
+                  <thead>
+                    <tr>
+                      <th><input type="checkbox" data-langtitle="SELECT_DESELECT_ALL" /></th>
+                      <th data-lang="IMPORT_PROJECT_NAME"></th>
+                      <th data-lang="IMPORT_INPUT" class="text-center"></th>
+                      <th data-lang="IMPORT_OUTPUT" class="text-center"></th>
+                      <th></th>
+                      <th></th>
+                    </tr>
+                  </thead>
+                  <tbody></tbody>
+                </table>
+
+              </div>
+              <div class="panel-footer text-center">
+                <div class="row">
+                  <div class="col-xs-4">
+                    <a id="dragProjectToImporter" href="#" class="drag-n-drop">
+                      <span class="icon icon-drag-n-drop-sm"></span>
+                      <span data-lang="IMPORT_DRAG_DROP"></span>
+                    </a>
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="file" id="addProjectToImporterBrowse" nwdirectory="nwdirectory" nwworkingdir="..." class="hide" />
+                    <a id="addProjectToImporter" href="#" class="text-success">
+                      <span class="glyphicon glyphicon-plus"></span>
+                      <u data-lang="IMPORT_ADD_PROJECT"></u>
+                    </a>
+                  </div>
+                  <div class="col-xs-4">
+                    <input type="file" id="addProjectsToImporterBrowse" nwdirectory="nwdirectory" nwworkingdir="..." class="hide" />
+                    <a id="addProjectsToImporter" href="#" class="text-success">
+                      <span class="icon icon-folder-tree"></span>
+                      <u data-lang="IMPORT_ADD_GROUP"></u>
+                    </a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+
+            <div class="text-center">
+              <button id="ftuxStartImport" class="btn btn-success">
+                <span class="glyphicon glyphicon-ok"></span>
+                <span id="multiImportButton"></span>
+              </button>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <div id="aboutModal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="glyphicon glyphicon-remove pull-right" data-dismiss="modal" aria-hidden="true"></span>
+            <h4 data-lang="ABOUT"></h4>
+          </div>
+          <div class="modal-body">
+
+            <div class="panel panel-primary">
+              <div class="panel-heading">
+                <span class="pull-right versionApp" data-langtitle="VERSION">V2.18.16</span>
+                <h3 class="panel-title" data-lang="ABOUT_SCOUTAPP"></h3>
+              </div>
+              <div class="panel-body">
+                <p class="well well-sm" data-lang="ABOUT_DESCRIPTION"></p>
+                <p data-lang="ABOUT_DEPENDENCIES"></p>
+                <p>
+                  <span data-lang="ABOUT_CONTRIBUTORS"></span><br />
+                  <!-- If the following script isn't ran on the page, it doesn't hit soon enough to check if the images loaded. -->
+                  <!-- If the images load, keep text hidden, if the app is ran while a user is offline, show text instead of images. -->
+                  <script>
+                    function offline() {
+                      $(".gitHubContributors").addClass("notOnline");
+                    }
+                  </script>
+                  <span class="gitHubContributors">
+                    <a class="external-link" href="http://github.com/TheJaredWilcurt">
+                      <img onerror="offline()" src="https://avatars.githubusercontent.com/u/4629794?v=3&s=64" alt="TheJaredWilcurt" title="TheJaredWilcurt" />
+                      TheJaredWilcurt</a>,
+                    <a class="external-link" href="http://github.com/StephanRaab">
+                      <img onerror="offline()" src="https://avatars.githubusercontent.com/u/8717350?v=3&s=64" alt="StephanRaab" title="StephanRaab" />
+                      StephanRaab</a>,
+                    <a class="external-link" href="https://github.com/BlackBetty">
+                      <img onerror="offline()" src="https://avatars2.githubusercontent.com/u/8434515?v=3&s=64" alt="BlackBetty" title="BlackBetty" />
+                      Daniel Golant</a>,
+                    <a class="external-link" href="https://github.com/kimmortal1">
+                      <img onerror="offline()" src="https://avatars2.githubusercontent.com/u/6833383?v=3&s=64" alt="kimmortal1" title="kimmortal1" />
+                      Kim Sharpe</a>,
+                    <a class="external-link" href="http://github.com/zdennis">
+                      <img onerror="offline()" src="https://avatars.githubusercontent.com/u/967?v=3&s=64" alt="zdennis" title="zdennis" />
+                      zdennis</a>,
+                    <a class="external-link" href="http://github.com/mejiaj">
+                      <img onerror="offline()" src="https://avatars.githubusercontent.com/u/3385219?v=3&s=64" alt="mejiaj" title="mejiaj" />
+                      mejiaj</a>,
+                    <a class="external-link" href="http://github.com/ewiggle">
+                      <img onerror="offline()" src="https://avatars.githubusercontent.com/u/5510684?v=3&s=64" alt="ewiggle" title="ewiggle" />
+                      ewiggle</a>,
+                    <a class="external-link" href="http://github.com/nic-bertino">
+                      <img onerror="offline()" src="https://avatars.githubusercontent.com/u/883093?v=3&s=64" alt="nic-bertino" title="nic-bertino" />
+                      nic-bertino</a>
+                  </span>
+                </p>
+                <p>
+                  <span data-lang="ABOUT_VISIT_UPDATE"></span><br />
+                  <div class="text-center"><a href="http://scout-app.io" class="external-link">Scout-App.io</a></div>
+                </p>
+                <!--
+                  This is the "Check for Updates" feature. If your app is publicly available on GitHub
+                  you can use it. Since this takes a few extra steps to set up, it is commented out by
+                  default. See: http://ugui.io/api for more information about this feature.
+                -->
+                <p id="updateResults"></p>
+                <p class="text-center">
+                  <button id="scoutUpdateChecker" class="btn btn-primary" data-lang="CHECK_FOR_UPDATES"></button>
+                </p>
+                <p class="text-center">
+                  <input id="automaticUpdates" type="checkbox" data-argName="automaticUpdates" checked>
+                  <label for="automaticUpdates" data-lang="AUTOMATIC_UPDATES"></label>
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Delete a project confirmation modal -->
+    <div id="delete-modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="glyphicon glyphicon-remove pull-right" data-dismiss="modal" aria-hidden="true"></span>
+            <h4 class="truncate"><span data-lang="DELETE_PROJECT"></span>: <span class="project-name text-info"></span></h4>
+          </div>
+          <div class="modal-body text-center">
+
+            <img src="_img/cat-screaming-no.jpg" data-langalt="CAT_SCREAMING_NO" />
+
+            <p data-lang="CONFIRM_DELETE"></p>
+
+            <button id="confirm-delete" class="btn btn-danger" data-lang="DELETE"></button>
+            <button id="cancel-delete" class="btn btn-default" data-lang="CANCEL"></button>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- App Preferences modal -->
+    <div id="preferences-modal" class="modal">
+      <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <span class="glyphicon glyphicon-remove pull-right" data-dismiss="modal" aria-hidden="true"></span>
+            <h4 data-lang="PREFERENCES"></h4>
+          </div>
+          <div class="modal-body text-center">
+
+            <div class="row">
+              <div class="col-xs-12 col-s-12 col-md-12 col-l-12">
+                <h4 data-lang="NOTIFICATIONS_CHOICE" class="notifications custom-icon"></h4>
+              </div>
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6 checkbox text-left alert-options">
+                <div class="text-center" data-lang="MESSAGES_TITLE_SUCCESS"></div>
+                <div class="col-xs-12">
+                  <input id="messageInApp"    class="pull-right" type="checkbox" checked data-argName="messageInApp"   value="messageinapp"   />
+                  <label for="messageInApp"   data-lang="MESSAGES_IN_APP"></label>
+                </div>
+                <div class="col-xs-12">
+                  <input id="messageDesktop"  class="pull-right" type="checkbox"         data-argName="messageDesktop" value="messagedesktop" />
+                  <label for="messageDesktop" data-lang="MESSAGES_DESKTOP"></label>
+                </div>
+                <div class="col-xs-12">
+                  <input id="messageSound"    class="pull-right" type="checkbox" checked data-argName="messageSound"   value="messagesound"   />
+                  <label for="messageSound"   data-lang="MESSAGES_SOUND"></label>
+                </div>
+              </div>
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6 checkbox text-left alert-options">
+                <div class="text-center" data-lang="MESSAGES_TITLE_ERROR"></div>
+                <div class="col-xs-12">
+                  <input id="alertInApp"      class="pull-right" type="checkbox" checked data-argName="alertInApp"     value="alertinapp"     />
+                  <label for="alertInApp"     data-lang="MESSAGES_IN_APP"></label>
+                </div>
+                <div class="col-xs-12">
+                  <input id="alertDesktop"    class="pull-right" type="checkbox" checked data-argName="alertDesktop"   value="alertdesktop"   />
+                  <label for="alertDesktop"   data-lang="MESSAGES_DESKTOP"></label>
+                </div>
+                <div class="col-xs-12">
+                  <input id="alertSound"      class="pull-right" type="checkbox" checked data-argName="alertSound"     value="alertsound"     />
+                  <label for="alertSound"     data-lang="MESSAGES_SOUND"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-s-12 col-md-12 col-l-12">
+                <h4 data-lang="WINDOW_SETTING" class="window custom-icon"></h4>
+              </div>
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6 checkbox text-left alert-options">
+                <div class="col-xs-12">
+                  <input id="sendToTrayOnClose"  class="pull-right" type="checkbox" checked data-argName="sendToTrayOnClose" value="sendToTrayOnClose" />
+                  <label for="sendToTrayOnClose" data-lang="SEND_TO_TRAY_ON_CLOSE"></label>
+                </div>
+              </div>
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6 checkbox text-left alert-options">
+                <div class="col-xs-12">
+                  <input id="startMinimized"     class="pull-right" type="checkbox"         data-argName="startMinimized"    value="startMinimized"    />
+                  <label for="startMinimized"    data-lang="START_MINIMIZED"></label>
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-s-12 col-md-12 col-l-12 atomic-options">
+                <h4 data-lang="FILES" class="file custom-icon"></h4>
+                <p class="text-left" data-lang="ATOMIC_NOTE"></p>
+                <div class="col-xs-12 text-left">
+                  <label for="atomicSlider" data-lang="ATOMIC_LABEL"></label>
+                  <input
+                    id="atomicSlider"
+                    type="text"
+                    class="slider"
+                    data-argName="atomicSlider"
+                    data-slider-id="atomicSlider"
+                  />
+                </div>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6">
+                <h4 data-lang="LANGUAGE_CHOICE" class="language custom-icon"></h4>
+                <select id="cultureChoices" data-argName="culturechoice" class="form-control" required="required"></select>
+              </div>
+
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6">
+                <h4 data-lang="STYLESHEET_CHOICE" class="custom-pbrush"></h4>
+
+                <select id="themeChoices" data-argName="themechoice" class="form-control" required="required">
+                  <!-- Dynamically filled from the _themes folder. -->
+                </select>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-6 col-s-6 col-md-6 col-l-6 text-left small">
+                <em data-lang="TRANSLATED_BY"></em>
+                <span id="translatorLink"></span>
+              </div>
+            </div>
+
+            <div class="row">
+              <div class="col-xs-12 col-s-12 col-md-12 col-l-12 text-center">
+                <img id="culture-pics" src="cultures/en.jpg" data-langalt="TRANSLATOR_MEME" data-langtitle="TRANSLATOR_MEME" />
+              </div>
+            </div>
+
+          </div>
+        </div>
+      </div>
+    </div>
+
+    <!-- Drag and drop folders into the app -->
+    <div id="drag-in-folders">
+      <div class="bordered-box">
+        Drag and drop folders here <!-- LOCALIZE-->
+      </div>
+    </div>
+
+    <script type="text/javascript" src="_scripts/ugui.js"></script>
+    <!-- App specific code -->
+    <script type="text/javascript" src="_scripts/globals.js"           ></script>
+    <script type="text/javascript" src="_scripts/cultures.js"          ></script>
+    <script type="text/javascript" src="_scripts/load-settings.js"     ></script>
+    <script type="text/javascript" src="_scripts/window-manager.js"    ></script>
+    <script type="text/javascript" src="_scripts/ugui-override.js"     ></script>
+    <script type="text/javascript" src="_scripts/alerts.js"            ></script>
+    <script type="text/javascript" src="_scripts/app.js"               ></script>
+    <script type="text/javascript" src="_scripts/project-manager.js"   ></script>
+    <script type="text/javascript" src="_scripts/sidebar.js"           ></script>
+    <script type="text/javascript" src="_scripts/events.js"            ></script>
+    <script type="text/javascript" src="_scripts/auto-guesser.js"      ></script>
+    <script type="text/javascript" src="_scripts/multi-import.js"      ></script>
+    <script type="text/javascript" src="_scripts/ftux.js"              ></script>
+    <script type="text/javascript" src="_scripts/drag-in-folders.js"   ></script>
+    <script type="text/javascript" src="_scripts/preferences.js"       ></script>
+    <script type="text/javascript" src="_scripts/check-for-updates.js" ></script>
+
+  </body>
+</html>
