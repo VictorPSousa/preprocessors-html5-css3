@@ -1,14 +1,1 @@
-/* line 3, ../../../OneDrive/Documentos/GitHub/preprocessors-html5-css3/sass/origamid-course/scss/style.scss */
-div {
-  background: #999;
-  height: 200px;
-  width: 500px;
-}
-
-/* line 7, ../../../OneDrive/Documentos/GitHub/preprocessors-html5-css3/sass/origamid-course/scss/style.scss */
-div a {
-  color: pink;
-  background: blue;
-}
-
-/*# sourceMappingURL=style.css.map */
+p{color:blue;background:grey}a{display:block;width:200px;height:40px}div{background:#999;height:200px;width:500px}div a{color:pink;background:blue}
