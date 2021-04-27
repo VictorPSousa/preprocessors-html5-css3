@@ -1,9 +1,39 @@
 @import "colors";
 @import "buttons";
 
+$cor-primaria: #84E; 
 $preto: #999;
 
-div{
+h1{
+    color: $cor-primaria;
+    font-family: monospace;
+}
+
+section {
+	max-width: 600px;
+	margin: 0 auto;
+}
+
+p {
+	font-size: 1.2em;
+	line-height: 1.4;
+	max-width: 400px;
+}
+
+a {
+	display: block;
+	max-width: 120px;
+	padding: 10px;
+	border-radius: 4px;
+	text-align: center;
+	background: #84E;
+	color: white;
+	text-decoration: none;
+	text-transform: uppercase;
+	font-family: monospace;
+}
+
+.test{
     background: $preto;
     height: 200px;
     width: 500px;
