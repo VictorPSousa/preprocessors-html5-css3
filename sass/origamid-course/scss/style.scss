@@ -1,12 +1,14 @@
 @import "colors";
-@import "buttons";
 
-$cor-primaria: #84E; 
-$preto: #999;
+$fonte-primaria: monospace;
+$gutter: 60px;
+
+@import "buttons";
 
 h1{
     color: $cor-primaria;
-    font-family: monospace;
+    font-family: $fonte-primaria;
+    margin-bottom: $gutter;
 }
 
 section {
@@ -18,19 +20,7 @@ p {
 	font-size: 1.2em;
 	line-height: 1.4;
 	max-width: 400px;
-}
-
-a {
-	display: block;
-	max-width: 120px;
-	padding: 10px;
-	border-radius: 4px;
-	text-align: center;
-	background: #84E;
-	color: white;
-	text-decoration: none;
-	text-transform: uppercase;
-	font-family: monospace;
+    font-family: $fonte-primaria;
 }
 
 .test{
