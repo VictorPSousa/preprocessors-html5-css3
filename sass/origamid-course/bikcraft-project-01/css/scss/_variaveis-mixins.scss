@@ -1,3 +1,40 @@
+// cores
 $cor-primaria: #fec63e;
 $preto: #111;
 $branco: #ffffff;
+
+// tipografia
+@mixin tipo-1($tam){
+    @if $tam == 14{
+        font-size: 14px;
+        line-height: 20px;
+    }@else if $tam == 18{
+        font-size: 18px;
+        line-height: 25px;
+    }@else if $tam == 24{
+        font-size: 24px;
+        line-height: 30px;
+    }@else if $tam == 36{
+        font-size: 36px;
+    }@else if $tam == 48{
+        font-size: 48px;
+    }
+}
+
+@mixin tipo-2($tam){
+    font-family: Georgia, "Times New Roman", serif;
+    @if $tam == 14{
+        font-size: 14px;
+        line-height: 20px;
+    }@else if $tam == 18{
+        font-size: 18px;
+        line-height: 25px;
+    }@else if $tam == 24{
+        font-size: 24px;
+        line-height: 30px;
+    }@else if $tam == 36{
+        font-size: 36px;
+    }@else if $tam == 48{
+        font-size: 48px;
+    }
+}

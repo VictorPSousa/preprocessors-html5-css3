@@ -8,15 +8,13 @@
 }
 
 .missao_sobre p {
-	font-size: 18px;
-	line-height: 25px;
+	@include tipo-1(18);
 	margin-bottom: 1em;
 	padding-right: 60px
 }
 
 .missao_sobre ul li {
-	font-family: Georgia, "Times New Roman", serif;
-	font-size: 18px;
+	@include tipo-2(18);
 	line-height: 30px;
 }
 

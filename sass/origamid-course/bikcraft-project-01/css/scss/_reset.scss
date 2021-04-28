@@ -26,6 +26,6 @@ html, body, div, span, iframe, h1, h2, h3, h4, h5, h6, p, blockquote, a, em, img
 }
 
 h1, h2, h3, h4, h5, h6, p, a, ul {
-	font-size: 1em;
+	@include tipo-1(18);
 	font-weight: normal;
 }
