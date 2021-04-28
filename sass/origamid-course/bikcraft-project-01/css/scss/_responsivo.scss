@@ -13,7 +13,7 @@
 /*Footer*/
 
 .footer_redes ul li a {
-	border: 3px solid #fec63e;
+	border: 3px solid $cor-primaria;
 	display: block;
 	padding: 6px;
 
@@ -71,18 +71,18 @@
 }
 
 .header_menu ul li a {
-	border: 4px solid #000;
+	border: 4px solid $preto;
 	width: 136px;
 	display: block;
 	float: left;
 }
 
 .header_menu ul li a:hover {
-	border-color: #fff;
+	border-color: $branco;
 }
 
 .header_menu ul li a.menu_ativo {
-	border-color: #fff;
+	border-color: $branco;
 }
 
 /*Introducao*/
