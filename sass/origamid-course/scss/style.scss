@@ -44,10 +44,22 @@ $secondary-color: gray;
     }
 }
 
+@function em($pixels, $contexto: 16){
+    @return ($pixels / $contexto) * 1em;
+}
+
+@function grid($colunas, $total: 12){
+    @return ($colunas / $total) * 100%;
+}
+
 p{
     color: $primary-color;
     background-color: $secondary-color;
     @include type-1(24);
+}
+
+article{
+    width: grid(4);
 }
 
 div{
@@ -56,7 +68,7 @@ div{
     @if $width > 200{
         height: $width * 2;
     } @else{
-        height: $width;
+        height: round($width / 4.2);
     }
 }
 
@@ -176,6 +188,7 @@ ul{
     li{
         display: inline-block;
         list-style: none;
+        font-size: em(36);
         a{
             display: block;
             padding: 20px;
@@ -183,11 +196,14 @@ ul{
             background: blue;
             color: white;
             border-radius: 2px;
+            font-size: em(16, 36);
             .active &{
                 background: blue;
             }
             &:hover{
-                background: pink;
+                /* background-color: lighten(blue, 30%); */
+                color: darken(blue, 40%);
+                background: transparentize(blue, .5);
             }
         }
     }
