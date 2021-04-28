@@ -5,30 +5,75 @@ $gutter: 60px;
 
 @import "buttons";
 
-h1{
-    color: $cor-primaria;
-    font-family: $fonte-primaria;
-    margin-bottom: $gutter;
-}
-
 section {
 	max-width: 600px;
 	margin: 0 auto;
 }
 
-p {
-	font-size: 1.2em;
-	line-height: 1.4;
-	max-width: 400px;
-    font-family: $fonte-primaria;
+.modal{
+    h1.titulo{
+        color: $cor-primaria;
+        font-family: $fonte-primaria;
+        margin-bottom: $gutter;
+    }
+
+    p {
+        font: {
+            size: 1.2em;
+            family: $fonte-primaria;
+            style: italic;
+        }
+        line-height: 1.4;
+        max-width: 400px;
+    }
+    
+    .test{
+        background: $preto;
+        height: 200px;
+        width: 500px;
+        a{
+            color: pink;
+            background: blue;
+        }
+    }
+
+    a {
+        display: block;
+        max-width: 120px;
+        padding: 10px;
+        border-radius: 4px;
+        text-align: center;
+        background: $cor-primaria;
+        color: white;
+        text-decoration: none;
+        text-transform: uppercase;
+        font-family: $fonte-primaria;
+    }
 }
 
-.test{
-    background: $preto;
-    height: 200px;
-    width: 500px;
-    a{
-        color: pink;
-        background: blue;
+/* Nesting (ou alinhamento) */
+
+ul{
+    text-align: center;
+    li{
+        display: inline-block;
+        list-style: none;
+        a{
+            display: block;
+            padding: 20px;
+            text-decoration: none;
+            background: blue;
+            color: white;
+            border-radius: 2px;
+            .active &{
+                background: blue;
+            }
+            &::after. &::before{
+
+            }
+            &:hover{
+                background: pink;
+            }
+        }
     }
 }
