@@ -5,6 +5,12 @@ $gutter: 60px;
 
 @import "buttons";
 
+%clearfix::after{
+    content: '';
+    display: table;
+    clear: both;
+}
+
 @mixin title-large{
     font-size: 4em;
     font-weight: bold;
@@ -41,6 +47,7 @@ $gutter: 60px;
 }
 
 section {
+    @extend %clearfix;
 	max-width: 600px;
 	margin: 0 auto;
     @include border-box;
@@ -122,3 +129,29 @@ ul{
         }
     }
 }
+
+/* extend */
+
+.erro{
+    color: red;
+    font-weight: bold;
+}
+
+a.erro{
+    display: block
+}
+
+.button-erro{
+    @extend .erro;
+    padding: 20px;
+    width: 200px;
+}
+
+div{
+    @extend %clearfix;
+}
+
+.clearfix{
+    @extend %clearfix;
+}
+
