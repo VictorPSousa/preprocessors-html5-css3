@@ -44,6 +44,8 @@ $secondary-color: gray;
     }
 }
 
+/* https://sass-lang.com/documentation/values/functions */
+
 @function em($pixels, $contexto: 16){
     @return ($pixels / $contexto) * 1em;
 }
