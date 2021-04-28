@@ -1,7 +1,7 @@
 @import "colors";
 
 $fonte-primaria: monospace;
-$gutter: 60px;
+$gutter: 60px; /* distancia entre colunas exmp */
 
 @import "buttons";
 
@@ -155,3 +155,11 @@ div{
     @extend %clearfix;
 }
 
+div{
+    $width: 400px;
+    width: $width - 2 * $gutter;
+    font-size: 26px + 10;
+    padding: $gutter;
+    height: $width / 2;
+    background: #333 + #777;
+}
