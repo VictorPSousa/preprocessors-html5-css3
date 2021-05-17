@@ -1,0 +1,68 @@
+*, *:before, *:after {
+  -webkit-box-sizing: border-box; 
+  -moz-box-sizing: border-box; 
+  box-sizing: border-box;
+}
+
+$container: 960;
+$gutter: 20;
+$colunas: 16;
+
+%grid{
+	float: left;
+	margin-left: ($gutter / 2) + px;
+	margin-right: ($gutter / 2) + px;
+}
+
+@for $i from 1 through $colunas{
+	$width: $container / $colunas * $i - $gutter;
+	.grid-#{$i}{
+		@extend %grid;
+		width: $width + px;
+	}
+}
+
+.container {
+	width: $container + px;
+	margin: 0 auto;
+	padding: 0px;
+	position: relative;
+}
+
+.container:after, .container:before {
+	content: " ";
+	display: table;
+}
+
+.container:after {
+	clear: both;
+}
+
+/* não é possível utilizar extend dentro de media query */
+@media only screen and (min-width: 768px) and (max-width: 959px) {
+	$container: 768;
+
+	@for $i from 1 through $colunas{
+		$width: $container / $colunas * $i - $gutter;
+		.grid-#{$i}{
+			width: $width + px;
+		}
+	}
+
+	.container {
+		width: $container + px;
+	}
+}
+
+@media only screen and (max-width: 767px) {
+.container {
+	width: 300px;
+}
+
+.grid-1, .grid-2, .grid-3, .grid-4, .grid-5, .grid-6, .grid-7, .grid-8, .grid-9, .grid-10, .grid-11, .grid-12, .grid-13, .grid-14, .grid-15, .grid-16, .grid-1-3 {
+	width: 300px;
+	margin: 0 0 20px 0;
+	float: none;
+}
+
+}
